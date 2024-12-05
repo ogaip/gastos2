@@ -56,6 +56,6 @@ class EditPerfilForm(ModelForm):
             'fecha_nacimiento': forms.TextInput(attrs={'class': 'form-control', 'type': 'date'}),
             'genero': forms.Select(choices=Perfil.GENERO_CHOICES, attrs={'class': 'form-control'}),
             'foto': forms.FileInput(attrs={'class': 'form-control', 'type': 'file', 'accept': 'image/*'}),
-            'curriculum': forms.TextInput(attrs={'class': 'form-control', 'type': 'file', 'accept': ['.pdf', '.doc', '.docx']}),
+            'curriculum': forms.FileInput(attrs={'class': 'form-control', 'type': 'file', 'accept': ['.pdf', '.doc', '.docx']}),
             
                 }

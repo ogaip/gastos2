@@ -1,0 +1,43 @@
+{% extends 'layout/base.html' %}
+{% block title %}Gastos{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center">Gastos</h1>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ form }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Concepto</th>
+                                    <th>Monto</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for gasto in gastos %}
+                                    <tr>
+                                        <td>{{ gasto.fecha }}</td>
+                                        <td>{{ gasto.concepto }}</td>
+                                        <td>{{ gasto.monto }}</td>
+                                        <td> <a href="{% url 'transacciones:gasto_edit' gasto.id %}">Editar</a> | <a href="{% url 'transacciones:gasto_delete' gasto.id %}">Eliminar</a> </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+                                            

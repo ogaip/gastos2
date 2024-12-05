@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Perfil
-
+from django.urls import reverse
+from .models import Perfil, CustomUser as User
 
 from .forms import EditPerfilForm, EditUserForm
 
 # Create your views here.
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -17,13 +17,13 @@ def login_view(request):
         print(user)
         if user is not None:
             login(request, user)
-            return redirect('perfil')
+            return redirect(reverse('perfil', kwargs={'id': user.id}))
         else:
             return redirect('login')
     else:
         if request.user.is_authenticated:
             
-            return render(request, 'login/login.html')
+            return redirect(reverse('perfil', kwargs={'id': request.user.id}))
         else:
             
             return render(request, 'login/login.html')
@@ -49,33 +49,34 @@ def register(request):
     else:
         return render(request, 'login/register.html')
 
-
-    
-
 ############### Account  ####################
 @login_required
 def perfil(request, id):
-    user = request.user
-    fuser= User.objects.filter(username=user.username).values()
-    perfil = get_object_or_404(Perfil, user=user.id)
-    perfil2 = Perfil.objects.filter(user=user.id).values()
-    logo = get_logo(request)
-
-    print(logo)
+    user = get_object_or_404(User, id=id)
     return render(request, 'account/perfil.html', {
         'user': user,
-        'fuser': fuser,
-        'perfil': perfil,
-        'logo': logo,
+        'perfil': Perfil.objects.get(user=user.id),
         })
+    # fuser= User.objects.filter(username=user.username).values()
+    # perfil = get_object_or_404(Perfil, user=user.id)
+    # perfil2 = Perfil.objects.filter(user=user.id).values()
+    # logo = get_logo(request)
+
+    # print(logo)
+    # return render(request, 'account/perfil.html', {
+    #     'user': user,
+    #     'fuser': fuser,
+    #     'perfil': perfil,
+    #     'logo': logo,
+    #     })
 
 def editar_perfil(request, id):
     if request.method == 'POST':
-        user = request.user
+        user = get_object_or_404(User, id=id)
         perfil = get_object_or_404(Perfil, user=user.id)
         form = EditPerfilForm(request.POST, request.FILES)
-        logo = get_logo(request)
         if form.is_valid():
+            print('Formulario valido')
             perfil.user = user
             perfil.profesion = form.cleaned_data['profesion']
             perfil.puesto_actual = form.cleaned_data['puesto_actual']
@@ -92,29 +93,33 @@ def editar_perfil(request, id):
             perfil.curriculum = form.cleaned_data['curriculum']
             perfil.save()
             
-
-            return render(request, 'account/perfil.html', {
-                'perfil': perfil,
-                'message': 'Perfil actualizado correctamente',
-                'logo': get_logo(request),
-                'form': form,
-                })
-        else:
+            success = 'Perfil actualizado correctamente'
             return render(request, 'account/editar_perfil.html', {
                 'form': form,
                 'perfil': perfil,
-                'logo': logo,
-                'error': perfil.errors,
+                'mensaje': success,
+                })
+                
+        else:
+            form = EditPerfilForm(request.POST, request.FILES)
+            perfil = get_object_or_404(Perfil, user=user.id)
+            errors = form.errors
+            
+            
+            return render(request, 'account/editar_perfil.html', {
+                'form': form,
+                'perfil': perfil,                
+                'errors': errors,
                 })
     else:
-        user = request.user
+        user = get_object_or_404(User, id=id)
         perfil = get_object_or_404(Perfil, user=user.id)
-        form = EditPerfilForm(instance=perfil)
-        logo = get_logo(request)
+        form = EditPerfilForm(instance=Perfil.objects.get(user=user.id))        
+        
         return render(request, 'account/editar_perfil.html', {
             'form': form,
             'perfil': perfil,
-            'logo': logo,
+            
+            
+            
             })
-
-

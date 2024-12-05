@@ -1,28 +1,106 @@
-{% extends "layout/base.html" %}
-{% block title %}
-    Editar Perfil
-{% endblock title %}
-{% block content %}
-    <div class="container">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title text-center">Editar Perfil</h5>
-                <div class="card-body">
-                    <h5 class="card-title">{{ perfil.user.first_name }} {{ perfil.user.last_name }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted "></h6>
-                    <p class="card-text">
-                        <form action="{% url 'editar_perfil' perfil.id %}" method="post">
-                            {% csrf_token %}
-                            {{ form }}
-                            <button type="submit" class="btn btn-default btn-sm">Guardar Cambios</button>
-                        </form>
-                    </div>
-                </div>
-                <h1 class="text-center">Editar Perfil</h1>
-                <form action="{% url 'editar_perfil' perfil.id %}" method="post">
-                    {% csrf_token %}
-                    {{ form }}
-                    <button type="submit" class="btn btn-default btn-sm">Guardar Cambios</button>
-                </form>
+{% extends "layout/base.html" %} {% block contents %}
+<h1>Edita tu Perfil</h1>
+{% endblock contents %} {% block content %}
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-body p-5">
+        <h5 class="card-title">{{ from.user }} {{ perfil.user.last_name }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted"></h6>
+        <p class="card-text"></p>
+        <form action="{% url 'editar_perfil' perfil.id %}" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <div class="row">
+              <div class="col-4">
+                <label for="profesion">Profesion</label>
+                {{ form.profesion }}
+              </div>
+              <div class="col-4">
+                <label for="puesto_actual">Puesto Actual</label>
+                {{ form.puesto_actual }}
+              </div>
+              <div class="col-4">
+                <label for="empresa">Empresa</label>
+                {{ form.empresa }}
+              </div>
             </div>
-        {% endblock content %}
+            <div class="row">
+              <div class="col-4">
+                <label for="telefono">Teléfono</label>
+                {{ form.telefono }}
+              </div>
+              <div class="col-4">
+                <label for="direccion">Direccion</label>
+                {{ form.direccion }}
+              </div>
+              <div class="col-4">
+                <label for="ciudad">Ciudad</label>
+                {{ form.ciudad }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4">
+                <label for="estado">Estado</label>
+                {{ form.estado }}
+              </div>
+              <div class="col-4">
+                <label for="pais">País</label>
+                {{ form.pais }}
+              </div>
+              <div class="col-4">
+                <label for="codigo_postal">Código Postal</label>
+                {{ form.codigo_postal }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4">
+                <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                {{ form.fecha_nacimiento }}
+              </div>
+              <div class="col-4">
+                <label for="genero">Género</label>
+                {{ form.genero }}
+              </div>
+              <div class="col-4">
+                <label for="foto">Foto</label>
+                {{ form.foto }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4">
+                <label for="curriculum">Curriculum</label>
+                {{ form.curriculum }}
+              </div>
+            </div>
+            
+            
+           
+              
+          
+          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </form>
+        {% if mensaje %}
+          <div class="row">
+
+            <div class="alert alert-success" role="alert">
+              {{ mensaje }}
+            </div>
+          </div>
+        {% endif %}
+        
+        {% if errors %}
+          <div class="row">
+            <div class="alert alert-danger" role="alert">
+              {{ errors }}
+            </div>
+          </div>
+          
+        {% endif %}
+          
+          
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

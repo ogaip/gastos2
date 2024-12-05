@@ -25,7 +25,7 @@ class Perfil(models.Model):
     ciudad = models.CharField(max_length=100, default="debes agregar una ciudad")
     estado = models.CharField(max_length=100, default="debes agregar un estado")
     pais = models.CharField(max_length=100, default="debes agregar un pais")
-    codigo_postal = models.CharField(max_length=10, default="codigo postal")
+    codigo_postal = models.CharField(max_length=5, default="codigo postal")
     fecha_nacimiento = models.DateField(default="2021-01-01")
     genero = models.CharField(max_length=1, choices=GENERO_CHOICES, default="O")
     foto = models.ImageField(upload_to="avatar", null=True, blank=True)

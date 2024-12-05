@@ -1,9 +1,18 @@
 {% extends "layout/base.html" %}
-{% block title %}
-    Perfil
-{% endblock title %}
 {% block content %}
+
     <div class="container-fluid">
+        <div class="row">
+            <div class="message">
+                {% if messages %}
+                    {% for me in message %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ me }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-3">
                 <!-- Profile Image -->

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "account",
     "front",
+    "transaccion",
 ]
 
 MIDDLEWARE = [
@@ -54,7 +55,10 @@ ROOT_URLCONF = "gastos_settings.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            BASE_DIR / "front/template",
+            BASE_DIR / "front/template/pages",            
+            ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
